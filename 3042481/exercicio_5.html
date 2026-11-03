@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouse</title>
+</head>
+<body>
+    <canvas id="meuCanvas" style="background-color: #c7c7c7;"></canvas>
+</body>
+<script>
+    const canvas = document.getElementById('meuCanvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = 600;
+    canvas.height = 400;
+
+    let x = 300;
+    let y = 200;
+
+    let mouseX = 300;
+    let mouseY = 200;
+
+    const raio = 20;
+    const suavidade = 0.1;
+
+    canvas.addEventListener('mousemove', (event) => {
+        const rect = canvas.getBoundingClientRect();
+        mouseX = event.clientX - rect.left;
+        mouseY = event.clientY - rect.top;
+    });
+
+    function AtualizarCena(){
+        ctx.fillStyle = 'rgba(199, 199, 199, 0.15)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        x += (mouseX - x) * suavidade;
+        y += (mouseY - y) * suavidade;
+
+        ctx.beginPath();
+        ctx.arc(x, y, raio, 0, Math.PI * 2);
+        ctx.fillStyle = '#6700a3';
+        ctx.fill();
+
+        requestAnimationFrame(AtualizarCena);
+    }
+    AtualizarCena();
+
+</script>
+</html>
