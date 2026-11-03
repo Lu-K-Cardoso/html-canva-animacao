@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relogio</title>
+</head>
+<body>
+    <canvas id="meuCanvas" style="background-color: #c7c7c7;"></canvas>
+</body>
+<script>
+    const canvas = document.getElementById('meuCanvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = 600;
+    canvas.height = 400;
+
+    const centroX = 300;
+    const centroY = 200;
+
+function atualizarRelogio (){
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = '#b05200';
+    ctx.beginPath();
+    ctx.arc(300, 200, 150, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.arc(300, 200, 135, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = 'black';
+    ctx.beginPath();
+    ctx.arc(300, 200, 10, 0, Math.PI * 2);
+    ctx.fill();
+
+    const agora = new Date();
+    const horas = agora.getHours();
+    const minutos = agora.getMinutes();
+    const segundos = agora.getSeconds();
+
+    const anguloSegundos = (segundos / 60) * (Math.PI * 2) - (Math.PI / 2);
+    const anguloMinutos = ((minutos + segundos / 60) / 60) * (Math.PI * 2) - (Math.PI / 2);
+    const anguloHoras = ((horas % 12 + minutos / 60) / 12) * (Math.PI * 2) - (Math.PI / 2);
+
+    desenharPonteiro(anguloHoras, 70, 8, '#333');
+    desenharPonteiro(anguloMinutos, 110, 5, '#555');
+    desenharPonteiro(anguloSegundos, 115, 2, '#ff003c');
+
+    requestAnimationFrame(atualizarRelogio);
+
+}
+
+ function desenharPonteiro(angulo, comprimento, espessura, cor) {
+        ctx.save();
+        ctx.translate(centroX, centroY);
+        ctx.rotate(angulo);
+        
+        ctx.strokeStyle = cor;
+        ctx.lineWidth = espessura;
+        
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(comprimento, 0);
+        ctx.stroke();
+        
+        ctx.restore();
+    }
+atualizarRelogio();
+
+</script>
+</html>
