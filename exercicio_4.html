@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuva</title>
+</head>
+<body>
+    <canvas id="meuCanvas" style="background-color: #c7c7c7;"></canvas>
+</body>
+<script>
+    const canvas = document.getElementById('meuCanvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = 600;
+    canvas.height = 400;
+
+    const gotas = [];
+    const quantidade = 100;
+
+    for(let i = 0; i < quantidade; i++){
+        gotas.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            largura: 2,
+            altura: 15,
+            velocidade: 4 + Math.random() * 4
+        });
+    }
+
+    function AtualizarCena(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = '#3498db';
+
+        for(let i = 0; i < gotas.length; i++){
+            const gota = gotas[i];
+
+            ctx.fillRect(gota.x, gota.y, gota.largura, gota.altura);
+            gota.y += gota.velocidade;
+
+            if(gota.y > canvas.height){
+                gota.y = 0;
+                gota.x = Math.random() * canvas.width;
+            }
+            
+        }
+        requestAnimationFrame(AtualizarCena);
+    }
+    AtualizarCena();
+</script>
+</html>
