@@ -35,14 +35,20 @@
         x += vx;
         y += vy;
 
-        if(x + raio > canvas.width){
-            x = canvas.width - raio;
-            vx = -vx;
-        }else if(x - raio < 0){
-            x = raio;
+        if(x + raio > canvas.width || x - raio < 0 ){
             vx = -vx;
         }
+        if(y + raio > canvas.height || y - raio < 0){
+            vy = -vy * atrito;
+        }
+        if(y + raio > canvas.height){
+            y = canvas.height - raio;
+            vx *= 0.99;
+            if(Math.abs(vy) < 1) vy = 0;
+        }
+        requestAnimationFrame(AtualizarCena);
     }
+    AtualizarCena();
 
 </script>
 </html>
